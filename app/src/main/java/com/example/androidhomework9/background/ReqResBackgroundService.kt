@@ -1,51 +1,33 @@
 package com.example.androidhomework9.background
 
-import android.app.Service
-import android.content.Intent
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.IBinder
+import android.content.Context
 import android.util.Log
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 import com.example.androidhomework9.api.dto.RestClient
-import com.example.androidhomework9.api.dto.response.ListUsers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.androidhomework9.api.dto.response.Users
+import com.example.androidhomework9.data.UserDatabase
 
-class ReqResBackgroundService : Service() {
-    private lateinit var handler: Handler
-    private lateinit var handleThread: HandlerThread
+class ReqResBackgroundService(context: Context, workerParameters: WorkerParameters) :
+    Worker(context, workerParameters) {
+    private var users = mutableListOf<Users>()
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
-    }
+    override fun doWork(): Result {
+        return try {
+            RestClient.reqResService.getUsers(1).execute().body()?.let { users.add(it) }
+            RestClient.reqResService.getUsers(2).execute().body()?.let { users.add(it) }
+            RestClient.reqResService.getUsers(3).execute().body()?.let { users.add(it) }
 
-    override fun onCreate() {
-        handleThread = HandlerThread("ReqRes Service")
-        handleThread.start()
-        handler = Handler(handleThread.looper)
-        super.onCreate()
-    }
+            Log.d("USERS", users.toString())
+            users.forEach {
+                Log.d("USER", it.toString())
+                UserDatabase.invoke(applicationContext).distanceDao().insertAll(it.data[0])
+            }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        handler.post {
-            RestClient.reqResService.getUsers(2).enqueue(object : Callback<ListUsers> {
-                override fun onResponse(
-                    call: Call<ListUsers>, response: Response<ListUsers>
-                ) {
-                    if (response.isSuccessful) {
-                        Log.d("Successful", response.body().toString())
-//                        result.text = response.body().toString()
-                    }
-                }
-
-                override fun onFailure(call: Call<ListUsers>, t: Throwable) {
-                    Log.d("Failure", t.message.toString())
-                }
-            })
+            return Result.success()
+        } catch (t: Throwable) {
+            Log.e("USERS", "Error can't get users")
+            Result.failure()
         }
-
-        return super.onStartCommand(intent, flags, startId)
     }
 }

@@ -1,8 +1,13 @@
 package com.example.androidhomework9.api.dto.response
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-data class ListUsers(
+
+
+data class Users(
 
     @SerializedName("per_page") val perPage: Int,
     val total: Int,
@@ -12,17 +17,7 @@ data class ListUsers(
     val support: Support
 )
 
-data class DataItem(
-
-    val id: Long,
-    val email: String,
-    @SerializedName("first_name") val firstName: String,
-    @SerializedName("last_name") val lastName: String,
-    val avatar: String
-
-)
-
 data class Support(
-
-    val text: String, val url: String
+    val text: String,
+    val url: String
 )

@@ -1,8 +1,9 @@
 package com.example.androidhomework9
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.androidhomework9.api.dto.RestClient
 import com.example.androidhomework9.background.ReqResBackgroundService
 
@@ -14,7 +15,10 @@ class MainActivity : AppCompatActivity() {
 
         RestClient.initClient()
 
-        var intent = Intent(this, ReqResBackgroundService::class.java)
-        startService(intent)
+        val listUsers = OneTimeWorkRequestBuilder<ReqResBackgroundService>()
+            .build()
+
+        WorkManager.getInstance(this)
+            .beginWith(listUsers).enqueue().result
     }
 }

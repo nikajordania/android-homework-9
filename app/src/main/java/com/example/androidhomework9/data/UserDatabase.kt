@@ -4,14 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.androidhomework9.api.dto.response.DataItem
+import com.example.androidhomework9.api.dto.response.Users
 
-@Database(entities = [Distance::class], version = 1)
-abstract class DistanceDatabase : RoomDatabase() {
-    abstract fun distanceDao(): DistanceDao
+@Database(entities = [DataItem::class], version = 1)
+abstract class UserDatabase : RoomDatabase() {
+    abstract fun distanceDao(): UsersDao
 
     companion object {
         @Volatile
-        private var instance: DistanceDatabase? = null
+        private var instance: UserDatabase? = null
         private val LOCK = Any()
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
@@ -22,8 +24,8 @@ abstract class DistanceDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
             context.applicationContext,
-            DistanceDatabase::class.java,
-            "distancedatabase"
+            UserDatabase::class.java,
+            "USERS"
         ).build()
     }
 }
