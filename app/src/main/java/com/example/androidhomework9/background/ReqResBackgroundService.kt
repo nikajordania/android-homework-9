@@ -15,7 +15,15 @@ class ReqResBackgroundService(context: Context, workerParameters: WorkerParamete
     override fun doWork(): Result {
         return try {
             RestClient.reqResService.getUsers(1).execute().body()?.data.let {
-                users = it as MutableList<DataItem>
+                users += it as MutableList<DataItem>
+            }
+
+            RestClient.reqResService.getUsers(2).execute().body()?.data.let {
+                users += it as MutableList<DataItem>
+            }
+
+            RestClient.reqResService.getUsers(3).execute().body()?.data.let {
+                users += it as MutableList<DataItem>
             }
 
             Log.d("USERS", users.toString())

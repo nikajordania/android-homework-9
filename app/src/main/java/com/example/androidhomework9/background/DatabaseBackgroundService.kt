@@ -15,7 +15,7 @@ class DatabaseBackgroundService(context: Context, workerParameters: WorkerParame
                 .filter { it.id > 10 }
                 .forEach {
                     UserDatabase.invoke(applicationContext).dataItemDao().deleteUser(it)
-                    Log.d("DELETE PROCEDURE", "user $it.id")
+                    Log.d("DELETE PROCEDURE", "user ${it.id}")
                 }
 
             return Result.success()

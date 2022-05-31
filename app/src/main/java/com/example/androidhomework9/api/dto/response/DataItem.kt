@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "USERS")
 data class DataItem(
-    @PrimaryKey
     @ColumnInfo(name = "ID")
     val id: Int,
     @ColumnInfo(name = "EMAIL")
@@ -18,4 +17,7 @@ data class DataItem(
     @SerializedName("last_name") val lastName: String,
     @ColumnInfo(name = "AVATAR")
     val avatar: String
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var uid = 0
+}
