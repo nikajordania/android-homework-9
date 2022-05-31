@@ -5,11 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.androidhomework9.api.dto.response.DataItem
-import com.example.androidhomework9.api.dto.response.Users
 
 @Database(entities = [DataItem::class], version = 1)
 abstract class UserDatabase : RoomDatabase() {
-    abstract fun distanceDao(): UsersDao
+    abstract fun dataItemDao(): DataItemDao
 
     companion object {
         @Volatile

@@ -5,10 +5,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.androidhomework9.api.dto.response.DataItem
-import com.example.androidhomework9.api.dto.response.Users
 
 @Dao
-interface UsersDao {
+interface DataItemDao {
     @Query("SELECT * FROM USERS")
     fun getAll(): List<DataItem>
 

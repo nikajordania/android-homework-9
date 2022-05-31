@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 data class DataItem(
     @PrimaryKey
     @ColumnInfo(name = "ID")
-    val id: Long,
+    val id: Int,
     @ColumnInfo(name = "EMAIL")
     val email: String,
     @ColumnInfo(name = "FIRST_NAME")

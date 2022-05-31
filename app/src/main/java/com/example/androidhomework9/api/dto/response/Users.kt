@@ -1,10 +1,6 @@
 package com.example.androidhomework9.api.dto.response
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-
 
 
 data class Users(
